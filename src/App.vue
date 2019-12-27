@@ -1,7 +1,15 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    
+    <div v-for= "(post, index) in posts"
+      :key="index"
+    >
+      {{ post.title +"," + post.author }}
+     
+    </div>
+    <HelloWorld>
+    </HelloWorld>
   </div>
 </template>
 
@@ -12,6 +20,24 @@ export default {
   name: 'app',
   components: {
     HelloWorld
+  },
+  data() {
+    return {
+      posts: null
+    }
+  },
+  mounted: function() {
+    fetch('https://desolate-meadow-70423.herokuapp.com/posts', {
+      method: 'get'
+    })
+
+      .then((response) => {
+        return response.json()
+      })
+
+      .then((jsonData) => {
+        this.posts = jsonData
+      })
   }
 }
 </script>
